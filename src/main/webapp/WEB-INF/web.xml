@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name>netctoss</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+  	<servlet-name>main</servlet-name>
+  	<servlet-class>web.MainServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>main</servlet-name>
+  	<url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  <!-- 
+  	配置错误页面：
+  		1. tomcat是所有服务端代码调用的入口，它在调用代码时会尝试捕获异常
+  		2. 默认地，它捕获到异常时会自动转发到对应的错误页面，如404.html/505.html
+  		3. 我们可以通过配置改变这个默认的行为，明确告诉tomcat哪个异常去哪个错误页面。
+  		   这件事本身解决不了异常，仅仅是让用户看起来更友好而已
+  		4. 声明错误页面时需写绝对路径，但由于是转发过去，只能访问此项目内部的资源，
+  		   所以tomcat会自动地帮我们加上项目名，自己就别写项目名
+   -->
+   <!-- 1. 通过异常类型配置 -->
+   <error-page>
+   	<exception-type>java.lang.Exception</exception-type>
+   	<location>/WEB-INF/error.jsp</location>
+   </error-page>
+   <!-- 2. 通过异常编号(404/405/505)进行配置 -->
+   <!-- 
+   <error-page>
+   	<error-code></error-code>
+   	<location></location>
+   </error-page> -->
+   <!-- 登录检查过滤器 -->
+   <filter>
+   	<filter-name>login</filter-name>
+   	<filter-class>web.LoginFilter</filter-class>
+   </filter>
+   <filter-mapping>
+   	<filter-name>login</filter-name>
+   	<url-pattern>*.do</url-pattern>
+   </filter-mapping>
+</web-app>
